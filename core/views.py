@@ -2,4 +2,4 @@ from django.shortcuts import render
 
 
 def index(request):
-    return render(request, 'timeline.html')
+    return render(request, 'core/feed.html')
