@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Favicon -->
-    <link href="{% static 'assets/images/favicon.png' %}" rel="icon" type="image/png">
+    {#    <link href="{% static 'assets/images/favicon.png' %}" rel="icon" type="image/png">#}
 
     <!-- Basic Page Needs
         ================================================== -->
@@ -46,10 +46,13 @@
         </div>
 
         <div class="lg:mt-0 lg:w-96 md:w-1/2 sm:w-2/3 mt-10 w-full">
-            <form class="p-6 space-y-4 relative bg-white shadow-lg rounded-lg">
-                <input type="email" placeholder="Email or Phone Number" class="with-border">
-                <input type="password" placeholder="Password" class="with-border">
-                <button type="button" class="bg-blue-600 font-semibold p-3 rounded-md text-center text-white w-full">
+            <form class="p-6 space-y-4 relative bg-white shadow-lg rounded-lg" method="POST"
+                  action="{% url 'userauths:login' %}">
+                {% csrf_token %}
+                <input type="email" name="email" placeholder="Email or Phone Number" class="with-border">
+                <input type="password" name="password" placeholder="Password" class="with-border">
+                <button type="submit" name='login'
+                        class="bg-blue-600 font-semibold p-3 rounded-md text-center text-white w-full">
                     Log In
                 </button>
                 <a href="#" class="text-blue-500 text-center block"> Forgot Password? </a>
@@ -108,7 +111,7 @@
             <div class="lg:text-2xl text-xl font-semibold mb-1"> Sign Up</div>
             <div class="text-base text-gray-600"> It’s quick and easy.</div>
         </div>
-        <form class="p-7 space-y-5" method="POST">
+        <form class="p-7 space-y-5" method="POST" action="{% url 'userauths:sign-up' %}">
             {% csrf_token %}
             <div class="grid lg:grid-cols-2 gap-5">
                 {{ form.full_name }}
@@ -135,7 +138,7 @@
                 <a href="#">Cookies Policy</a>. You may receive SMS Notifications from us and can opt out any time.
             </p>
             <div class="flex">
-                <button type="submit"
+                <button type="submit" name="register"
                         class="bg-blue-600 font-semibold mx-auto px-10 py-3 rounded-md text-center text-white">
                     Create Account
                 </button>
