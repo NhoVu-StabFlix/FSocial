@@ -2,3 +2,5 @@
 !/db.sqlite3
 !/userauths/migrations/0001_initial.py
 !/userauths/migrations/0002_alter_user_gender.py
+/userauths/migrations/__init__.py
+/userauths/migrations/0001_initial.py
