@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from userauths.forms import UserRegisterForm
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from userauths.models import Profile, User
 from django.http import HttpResponseRedirect
 from django.contrib.auth.forms import AuthenticationForm
@@ -55,4 +55,10 @@ def login_view(request):
                 return redirect('userauths:register')
         except User.DoesNotExist:
             messages.warning(request, "Invalid email or password")
+            return redirect('userauths:sign-up')
     return HttpResponseRedirect("/")
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('userauths:sign-up')
