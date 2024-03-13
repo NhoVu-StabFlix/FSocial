@@ -27,7 +27,7 @@ class User(AbstractUser):
     username = models.CharField(max_length=200)
     email = models.CharField(unique=True, max_length=200)
     phone = models.CharField(max_length=20)
-    gender = models.CharField(max_length=20, choices=GENDER,default='Male')
+    gender = models.CharField(max_length=20, choices=GENDER, default='Male')
     otp = models.CharField(max_length=10, null=True, blank=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
@@ -42,7 +42,7 @@ class Profile(models.Model):
     pid = ShortUUIDField(length=11, max_length=25, prefix='1000', alphabet='0123456789')
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     cover_image = models.ImageField(upload_to=user_directory_path, default='cover.jpg')
-    images = models.CharField(user_directory_path, max_length=200, default='default.jpg')
+    images = models.ImageField(upload_to=user_directory_path, default='default.jpg')
     full_name = models.CharField(max_length=200, null=True, blank=True)
     bio = models.CharField(max_length=200, null=True, blank=True)
     phone = models.CharField(max_length=200, null=True, blank=True)
