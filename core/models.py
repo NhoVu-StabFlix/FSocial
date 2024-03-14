@@ -45,6 +45,10 @@ class Post(models.Model):
         else:
             return self.user.username
 
+    class Meta:
+        verbose_name_plural = 'Posts'
+        ordering = ['-date']
+
     def thumbnail(self):
         if self.image:
             return format_html('<img src="{}" width="50" height="50" />', self.image.url)
