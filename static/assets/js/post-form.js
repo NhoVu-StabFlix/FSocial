@@ -29,16 +29,13 @@ $(document).ready(function () {
             success: function (res) {
                 console.log("Post Saved to DB...");
                 console.log(res.post.title);
-                console.log(res.post.image_url);
-                console.log(res.post.full_name);
-                console.log(res.post.profile_image);
                 console.log(res.post.date);
 
                 let _html = '<div class="card lg:mx-0 uk-animation-slide-bottom-small mt-3 mb-3">\
             <div class="flex justify-between items-center lg:p-4 p-2.5">\
                 <div class="flex flex-1 items-center space-x-4">\
                     <a href="#">\
-                        <img src="' + res.post.profile_image + '" style="width: 40px; height: 40px;" class="bg-gray-200 border border-white rounded-full w-10 h-10" />\
+                        <img src="' + res.post.profile_image + '" style="width: 40px; height: 40px;" class="bg-gray-200 border border-white rounded-full w-10 h-10"  alt=""/>\
                     </a>\
                     <div class="flex-1 font-semibold capitalize">\
                         <a href="#" class="text-black dark:text-gray-100">' + res.post.full_name + '</a>\
@@ -141,7 +138,7 @@ $(document).ready(function () {
                 </div>\
         </div>\
             ';
-                $(".feed-posts").prepend(_html);
+                $("#feed-posts").prepend(_html);
                 $("#create-post-modal").removeClass("uk-flex uk-open")
 
 
@@ -150,6 +147,37 @@ $(document).ready(function () {
 
 
         })
+    })
+
+})
+$(document).ready(function () {
+    $(document).on('click', '#like-btn', function () {
+        let btn_val = $(this).attr("data-like-btn");
+
+        $.ajax({
+            url: '/like-post/',
+            dataType: 'json',
+            data: {
+                'id': btn_val,
+            },
+            success: function (res) {
+                console.log("likes", res.data.likes);
+                if (res.data.is_liked === true) {
+                    console.log("da like")
+                    $("#like-count" + btn_val).text(res.data.likes + " likes")
+                    $(".like-btn" + btn_val).removeClass("text-black")
+                    $(".like-btn" + btn_val).addClass("text-blue-500")
+                } else {
+                    console.log("da unlike")
+                     $("#like-count" + btn_val).text(res.data.likes + " likes")
+                    $(".like-btn" + btn_val).removeClass("text-blue-500")
+                    $(".like-btn" + btn_val).addClass("text-black")
+                }
+
+            }
+
+        })
+
     })
 
 })

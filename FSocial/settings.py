@@ -68,14 +68,20 @@ WSGI_APPLICATION = 'FSocial.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'PASSWORD': 'PizzaHut',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'PizzaHut',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 # Password validation
@@ -123,6 +129,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Custome Auth User
 AUTH_USER_MODEL = 'userauths.User'
+LOGIN_REDIRECT_URL = ''
+LOGOUT_REDIRECT_URL = 'userauths:sign-up'
+LOGIN_URL = 'userauths:sign-up'
+LOGOUT_URL = ''
 
 # Custom UI ADMIN
 JAZZMIN_SETTINGS = {

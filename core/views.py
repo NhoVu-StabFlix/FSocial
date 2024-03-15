@@ -5,8 +5,10 @@ from core.models import Post
 from django.http import JsonResponse
 from django.utils.timesince import timesince
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 
+@login_required()
 def index(request):
     posts = Post.objects.filter(active=True, visibility='Everyone')
     context = {
@@ -49,24 +51,24 @@ def create_post(request):
         else:
             return JsonResponse({'error': 'Invalid post data'})
 
-    return redirect(request, reverse('core:feed'))
+    return JsonResponse({'data': 'sent'})
 
 
+@login_required()
 def like_post(request):
     post_id = request.GET['id']
-    post = Post.objects.filter(id=post_id)
+    post = Post.objects.get(id=post_id)
     user = request.user
     is_liked = False
-    if user in Post.objects.all():
+    if user in post.likes.all():
         is_liked = False
-        Post.likes.remove(user)
+        post.likes.remove(user)
     else:
         is_liked = True
-        Post.likes.add(user)
+        post.likes.add(user)
 
     data = {
         "is_liked": is_liked,
-        "likes": Post.objects.all().count()
+        "likes": Post.objects.get(id=post_id).likes.count()
     }
     return JsonResponse({"data": data})
-

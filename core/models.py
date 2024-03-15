@@ -28,14 +28,14 @@ NOTIFICATION_TYPE = (
 
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=500, blank=True, null=True)
-    image = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
+    title = models.CharField(max_length=1000, blank=True, null=True)
+    image = models.ImageField(upload_to=user_directory_path, blank=True, null=True, max_length=300)
     video = models.FileField(upload_to=user_directory_path, null=True, blank=True)
     visibility = models.CharField(max_length=100, choices=VISIBILITY, default='Everyone')
-    pid = ShortUUIDField(length=10, max_length=25, alphabet='1234567890')
+    pid = ShortUUIDField(length=7, max_length=10, alphabet='1234567890')
     likes = models.ManyToManyField(User, blank=True, related_name='post_likes')
     active = models.BooleanField(default=True)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(max_length=255, unique=True)
     views = models.PositiveIntegerField(default=0)
     date = models.DateTimeField(auto_now_add=True)
 
@@ -272,7 +272,7 @@ class PagePost(models.Model):
     visibility = models.BooleanField(default=True)
     likes = models.ManyToManyField(User, related_name='post_page_likes')
     active = models.BooleanField(default=True)
-    slug = models.CharField(unique=True, blank=True, null=True)
+    slug = models.CharField(max_length=255, unique=True, blank=True, null=True)
     views = models.PositiveIntegerField(default=0)
     date = models.DateTimeField(auto_now_add=True)
 
