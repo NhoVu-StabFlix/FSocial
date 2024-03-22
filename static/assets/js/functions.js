@@ -1,3 +1,4 @@
+//request to create post form
 $(document).ready(function () {
     $("#post-form").submit(function (e) {
 
@@ -150,6 +151,8 @@ $(document).ready(function () {
     })
 
 })
+
+//request like post
 $(document).ready(function () {
     $(document).on('click', '#like-btn', function () {
         let btn_val = $(this).attr("data-like-btn");
@@ -169,7 +172,7 @@ $(document).ready(function () {
                     $(".like-btn" + btn_val).addClass("text-blue-500")
                 } else {
                     console.log("da unlike")
-                     $("#like-count" + btn_val).text(res.data.likes + " likes")
+                    $("#like-count" + btn_val).text(res.data.likes + " likes")
                     $(".like-btn" + btn_val).removeClass("text-blue-500")
                     $(".like-btn" + btn_val).addClass("text-black")
                 }
@@ -179,5 +182,39 @@ $(document).ready(function () {
         })
 
     })
+
+})
+
+
+//request comment post
+
+
+$(document).ready(function () {
+    $(document).on('click', '#comment-btn', function () {
+        console.log("comment button clicked")
+        let id = $(this).attr("data-comment-btn")
+        let comment = $(".comment-input" + id).val()
+        console.log(comment)
+
+
+        $.ajax({
+            url: '/comment/',
+            dataType: 'json',
+            data: {
+                'id': id,
+                'comment': comment
+
+
+            },
+            success: function (res) {
+                console.log(res.data)
+            }
+
+
+        })
+
+
+    })
+
 
 })

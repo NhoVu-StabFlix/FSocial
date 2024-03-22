@@ -1,7 +1,7 @@
 import shortuuid
 from django.shortcuts import render, redirect, reverse
 from django.utils.text import slugify
-from core.models import Post
+from core.models import Post, Comment
 from django.http import JsonResponse
 from django.utils.timesince import timesince
 from django.views.decorators.csrf import csrf_exempt
@@ -71,4 +71,23 @@ def like_post(request):
         "is_liked": is_liked,
         "likes": Post.objects.get(id=post_id).likes.count()
     }
+    return JsonResponse({"data": data})
+
+
+def comment_post(request):
+    post_id = request.GET['id']
+    comment_content = request.GET['comment']
+    post = Post.objects.filter(id=post_id).first()
+    if post:
+        comment_count = Comment.objects.filter(post=post).count()
+        new_comment = Comment.objects.create(user=request.user, post=post, comment_content=comment_content)
+
+    data = {
+        "bool": True,
+        "comment": new_comment.comment_content,
+        "profile_image": new_comment.user.profile.images.url,
+        "post_id": new_comment.post.id,
+        "comment_count": comment_count + int(1)
+    }
+
     return JsonResponse({"data": data})
